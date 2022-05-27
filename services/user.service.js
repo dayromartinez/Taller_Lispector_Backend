@@ -21,12 +21,6 @@ const registerUser = async (req, res) => {
     }
 }
 
-const test = async (req, res) => {
-    const newUser = new testModel(req.body)
-    const userSaved = await newUser.save();
-    res.json(userSaved);
-}
-
 module.exports = {
     registerUser,
     loginUser,
