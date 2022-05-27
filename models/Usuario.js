@@ -1,20 +1,20 @@
 const mongoose = require('mongoose');
 
-const usuarioSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     id: { type: String, required: true, trim: false },
-    nombre: { type: String, required: true, trim: true },
-    correo: { type: String, required: true, trim: true },
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, trim: true },
     imageUser: { type: String, required: false, trim: false },
-    celular: { type: String, required: false, trim: true },
-    rol: {
+    phone: { type: String, required: false, trim: true },
+    role: {
         type: String,
         enum: {
-            values: ['usuario', 'admin'],
+            values: ['user', 'admin'],
             message: '{VALUE} no es un rol permitido'
         }
     },
-    codigoPublicacionPostales: { type: String, required: false, trim: true },
-    contrasena: { type: String, required: true, trim: true }
+    postalPublicationCode: { type: String, required: false, trim: true },
+    password: { type: String, required: true, trim: true }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Usuario', usuarioSchema);
+module.exports = mongoose.model('User', userSchema);
