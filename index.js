@@ -8,7 +8,7 @@ const app = express();
 //Middleware
 app.use(express.json());
 app.use(cors());
-app.use('/api', userControllers);
+app.use('/auth', userControllers);
 
 // Routes
 app.get('/', (req, res) => {
