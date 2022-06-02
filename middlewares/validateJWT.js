@@ -38,7 +38,7 @@ const validarJWTUser= (req,res,next)=>{
     }
 
     try {
-        const {uid, name, role, postalPublicationCode} = jwt.verify(
+        const {uid, name, role, postalPublicationCode, email} = jwt.verify(
             token,
             KEY_TOKEN
         )
@@ -46,8 +46,9 @@ const validarJWTUser= (req,res,next)=>{
         req.name=name
         req.role=role
         req.postalPublicationCode=postalPublicationCode
-       
-        res.status(200).json({ ok: true, msg: 'Token valido', uid, name, role, postalPublicationCode } );
+        req.email=email
+
+        res.status(200).json({ ok: true, msg: 'Token valido', uid, name, role, postalPublicationCode, email } );
     } catch (error) {
         return res.status(401).json({ok:false,msg:'No hay token en la peticion'})
     }

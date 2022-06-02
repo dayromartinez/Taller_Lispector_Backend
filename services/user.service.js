@@ -103,18 +103,18 @@ const loginUser = async (req, res=response)=>{
 
     try {
         let user = await Usuario.findOne({email});
-        if(!user) return res.status(400).send({ok:false, msg:'El usuario no existe'})
+        if(!user) return res.status(400).send({ ok: false, msg: 'El usuario no existe'})
         const token = await generateJWT (user.id,user.name,user.role, user.postalPublicationCode, user.email)
         const validarPassword= bcrypt.compareSync( password, user.password )
         
-        !validarPassword ? res.status(400).send({msg:'Correo o password incorrectos'}) : res.status(200).send({token}) //user
+        !validarPassword ? res.status(400).send({msg: 'Correo o password incorrectos'}) : res.status(200).send({token}) //user
     } catch (error) {
         res.send(error)
     }
 }
 
 const revalidarToken = async (req, res = response)=>{
-    const {uid, name, role, postalPublicationCode, email}=req
+    const {uid, name, role, postalPublicationCode, email} = req
     const token = await generateJWT (uid, name, role, postalPublicationCode, email)
     res.send(token)
 }
