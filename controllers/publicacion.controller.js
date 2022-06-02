@@ -1,0 +1,1 @@
+const publicacionModel = require('../models/Publicacion');

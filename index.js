@@ -15,6 +15,4 @@ app.get('/', (req, res) => {
     res.send('¡Bienvenid@ a la API de Taller Lispector!');
 });
 
-// app.listen(process.env.PORT || 9000, () => console.log('El servidor está corriendo en el puerto: ', process.env.PORT));
-
 app.listen(9000, () => console.log('El servidor está corriendo en el puerto: ', process.env.PORT));
