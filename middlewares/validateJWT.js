@@ -47,7 +47,7 @@ const validarJWTUser= (req,res,next)=>{
         req.role=role
         req.postalPublicationCode=postalPublicationCode
        
-
+        res.status(200).json({ ok: true, msg: 'Token valido', uid, name, role, postalPublicationCode } );
     } catch (error) {
         return res.status(401).json({ok:false,msg:'No hay token en la peticion'})
     }
