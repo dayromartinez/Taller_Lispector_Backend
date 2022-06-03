@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
-const publicacionSchema = new mongoose.Schema({
-    id: { type: String, required: true, trim: false },
+const publicationSchema = new mongoose.Schema({
     nombre: { type: String, required: true, trim: true },
     descripcion: { type: String, required: true, trim: true },
     numeroPaginas: { type: String, required: false, trim: false },
@@ -10,7 +9,7 @@ const publicacionSchema = new mongoose.Schema({
     generos: { type: Array, required: true, trim: false },
     urlDocumento: { type: String, required: true, trim: true },
     comentarios: { type: Array, required: false, trim: false },
-    codigosPublicacion: { type: Array, required: false, trim: true },
+    codigosPublicacion: { type: Array, required: true, trim: false },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Publicacion', publicacionSchema);
+module.exports = mongoose.model('Publication', publicationSchema);

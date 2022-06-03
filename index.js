@@ -1,14 +1,16 @@
 const express = require('express');
 const {} = require('./repositories/mongoAdapter');
 require('dotenv').config();
-const userControllers = require('./controllers/user.controller');
+const userController = require('./controllers/user.controller');
+const publicationController = require('./controllers/publicacion.controller');
 const cors = require('cors');
 const app = express();
 
 //Middleware
 app.use(express.json());
 app.use(cors());
-app.use('/auth', userControllers);
+app.use('/auth', userController);
+app.use('/publications', publicationController);
 
 // Routes
 app.get('/', (req, res) => {
