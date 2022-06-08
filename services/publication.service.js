@@ -105,7 +105,7 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
             })
 
             if(codigoUsadoEnMismaPublicacion){
-                res.status(400).send({ ok: false, msg: 'Este usuario ya tiene un código asignado para esta publicación'})
+                return res.status(400).send({ ok: false, msg: 'Este usuario ya tiene un código asignado para esta publicación'})
             }
 
             publicacion.codigosPublicacion.forEach(codigo => {
@@ -127,7 +127,7 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
             });
 
             if(codigoUsado){
-                res.status(400).send({ ok: false, msg: 'Este código de publicación ya está en uso'})
+                return res.status(400).send({ ok: false, msg: 'Este código de publicación ya está en uso'})
             }
 
             if(!match) {
