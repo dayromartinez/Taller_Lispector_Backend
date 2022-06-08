@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
         },
         default: 'user'
     },
-    postalPublicationCode: { type: String, required: false, trim: true, default: '' },
+    publicationsCode: { type: Array, required: false, trim: false, default: [] },
     password: { type: String, required: true, trim: true }
 }, { timestamps: true });
 

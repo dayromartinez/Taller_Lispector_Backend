@@ -91,17 +91,30 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
     
         if(publicacion && usuario) {
 
+            usuario.publicationsCode.forEach(codigoPublicacion => {
+                if(nombre === codigoPublicacion.publicacion){
+                    return res.status(400).send({ ok: false, msg: 'Este usuario ya tiene un código asignado para esta publicación'})
+                }
+            })
+
             publicacion.codigosPublicacion.forEach(codigo => {
 
                 if(nombre !== publicacion.nombre){
                     return res.status(400).send({ ok: false, msg: 'El nombre de la publicación no coincide'})
                 }
 
-                if(nombre === codigo.publicacion && codigo.codigoPublicacion === codigoPublicacion
+                if(nombre === codigo.publicacion && codigo.codigoPublicacion === codigoPublicacion && codigo.enUso === true) {
+
+                    return res.status(400).send({ ok: false, msg: 'Este código de publicación ya está en uso'})
+
+                }else if(nombre === codigo.publicacion && codigo.codigoPublicacion === codigoPublicacion
                     && codigo.enUso === false) {
 
                     codigo.enUso = true
-                    usuario.postalPublicationCode = codigo.codigoPublicacion
+                    usuario.publicationsCode.push({
+                        publicacion: codigo.publicacion,
+                        codigoPublicacion: codigo.codigoPublicacion
+                    })
                     match = true
 
                 }else if(nombre === codigo.publicacion && codigo.codigoPublicacion === codigoPublicacion
