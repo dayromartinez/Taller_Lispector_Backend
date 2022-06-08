@@ -83,6 +83,8 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
 
     const { _id, uid, nombre, codigoPublicacion } = req.body;
     let match = false;
+    let codigoUsado = false;
+    let codigoUsadoEnMismaPublicacion = false;
 
     try {
 
@@ -91,24 +93,28 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
     
         if(publicacion && usuario) {
 
+            if(nombre !== publicacion.nombre){
+                return res.status(400).send({ ok: false, msg: 'El nombre de la publicación no coincide'})
+            }
+
             usuario.publicationsCode.forEach(codigoPublicacion => {
                 if(nombre === codigoPublicacion.publicacion){
-                    return res.status(400).send({ ok: false, msg: 'Este usuario ya tiene un código asignado para esta publicación'})
+                    codigoUsadoEnMismaPublicacion = true;
+                    return;
                 }
             })
 
+            if(codigoUsadoEnMismaPublicacion){
+                res.status(400).send({ ok: false, msg: 'Este usuario ya tiene un código asignado para esta publicación'})
+            }
+
             publicacion.codigosPublicacion.forEach(codigo => {
 
-                if(nombre !== publicacion.nombre){
-                    return res.status(400).send({ ok: false, msg: 'El nombre de la publicación no coincide'})
-                }
-
                 if(nombre === codigo.publicacion && codigo.codigoPublicacion === codigoPublicacion && codigo.enUso === true) {
+                    codigoUsado = true;
+                    return;
 
-                    return res.status(400).send({ ok: false, msg: 'Este código de publicación ya está en uso'})
-
-                }else if(nombre === codigo.publicacion && codigo.codigoPublicacion === codigoPublicacion
-                    && codigo.enUso === false) {
+                }else if(nombre === codigo.publicacion && codigo.codigoPublicacion === codigoPublicacion && codigo.enUso === false) {
 
                     codigo.enUso = true
                     usuario.publicationsCode.push({
@@ -116,12 +122,13 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
                         codigoPublicacion: codigo.codigoPublicacion
                     })
                     match = true
-
-                }else if(nombre === codigo.publicacion && codigo.codigoPublicacion === codigoPublicacion
-                    && codigo.enUso === true) {
-                    return res.status(400).send({ ok: false, msg: 'Este código de publicación ya está en uso'})
+                    return;
                 }
             });
+
+            if(codigoUsado){
+                res.status(400).send({ ok: false, msg: 'Este código de publicación ya está en uso'})
+            }
 
             if(!match) {
                 return res.status(400).send({ ok: false, msg: 'El código de publicación ingresado no existe'})
