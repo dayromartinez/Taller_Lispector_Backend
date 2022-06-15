@@ -4,6 +4,7 @@ require('dotenv').config();
 const userController = require('./controllers/user.controller');
 const publicationController = require('./controllers/publicacion.controller');
 const commentController = require('./controllers/comentario.controller');
+const sesionController = require('./controllers/sesion.controller');
 const cors = require('cors');
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use('/auth', userController);
 app.use('/publications', publicationController);
 app.use('/comments', commentController);
+app.use('/sesions', sesionController);
 
 // Routes
 app.get('/', (req, res) => {

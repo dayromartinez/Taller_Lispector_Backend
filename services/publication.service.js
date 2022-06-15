@@ -151,7 +151,7 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
     }
 }
 
-module.exports={
+module.exports = {
     getAllPublicaciones,
     getPublicacion,
     crearPublicacion,

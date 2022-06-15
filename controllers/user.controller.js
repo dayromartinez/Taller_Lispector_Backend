@@ -7,10 +7,6 @@ const { createUser, loginUser } = require('../services/user.service');
 
 const router = express.Router();
 
-// router.post('/login', loginUser);
-
-// router.post('/register', createUser);
-
 router.post(
     '/register',
     [

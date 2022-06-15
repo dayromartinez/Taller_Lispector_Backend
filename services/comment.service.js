@@ -4,6 +4,7 @@ const Publicacion = require('../models/Publicacion');
 const Usuario = require('../models/Usuario');
 
 const getAllCommentsOfPublicationID = async (req, res = response) => {
+
     const { _id } = req.params;
 
     try {
@@ -20,6 +21,7 @@ const getAllCommentsOfPublicationID = async (req, res = response) => {
 }
 
 const getAllCommentsByUserID = async (req, res = response) => {
+
     const { _id } = req.params;
 
     try {
@@ -33,10 +35,10 @@ const getAllCommentsByUserID = async (req, res = response) => {
         console.log(error)
         res.sendStatus(500)
     }
-     
 }
 
 const createComments = async (req, res = response) => {
+
     const { publicacionId, userId, comentario, valoracion } = req.body;
 
     try {
@@ -53,9 +55,7 @@ const createComments = async (req, res = response) => {
 
         const commentCreated = await createComment.save();
 
-        console.log('USER: ', user)
         user.comments.push(commentCreated);
-        console.log('PUBLICACION: ', publication)
         publication.comentarios.push(commentCreated);
         user.save();
         publication.save();
@@ -66,10 +66,10 @@ const createComments = async (req, res = response) => {
         console.log(error)
         res.sendStatus(500)
     }
-        
 }
 
 const updateComment = async (req, res = response) => {
+
     const { publicacionId, userId, comentario, valoracion, comentarioId } = req.body;
 
     try {
@@ -92,19 +92,12 @@ const updateComment = async (req, res = response) => {
         const commentUpdated = await comment.save();
 
         user.comments.forEach(comentario => {
-            console.log('EL COMMENT ES: ', comment)
             const { _id: { ObjectId } } = comment;
-            console.log('EL COMMENT ID ES: ', ObjectId)
-            console.log(comment._id.toString())
             if(comentario._id.toString() === commentUpdated._id.toString()) {
                 comentario.comentario = commentUpdated.comentario;
                 comentario.valoracion = commentUpdated.valoracion;
-
-                console.log('ENTRO DENTRO DEL IF DE USER COMMENT')
             }
         })
-
-        console.log('LUEGO DEL USUARIO', user.comments)
 
         const userUpdated = user
         await user.updateOne(userUpdated);
@@ -113,15 +106,11 @@ const updateComment = async (req, res = response) => {
             if(comentario._id.toString() === commentUpdated._id.toString()) {
                 comentario.comentario = commentUpdated.comentario;
                 comentario.valoracion = commentUpdated.valoracion;
-
-                console.log('ENTRO DENTRO DEL IF DE PUBLICATION COMMENT')
             }
         })
 
         const publicationUpdated = publication
         await publication.updateOne(publicationUpdated);
-
-        console.log('LUEGO DEL PUBLICACION', publication.comentarios)
 
         res.status(200).send({commentUpdated});
         
@@ -133,6 +122,7 @@ const updateComment = async (req, res = response) => {
 }
 
 const deleteComment = async (req, res = response) => {
+
     const { _id } = req.params;
 
     try {
@@ -145,14 +135,11 @@ const deleteComment = async (req, res = response) => {
 
         let filtroDeleteComentarioUser = user.comments.filter(comentario => {
             if(comentario._id.toString() !== comment._id.toString()) {
-                console.log('ENTRO DENTRO DEL IF DE USER COMMENT')
                 return comentario;
             }
         })
 
         user.comments = filtroDeleteComentarioUser;
-
-        console.log(user.comments)
 
         const userUpdated = user
         await user.updateOne(userUpdated);
@@ -161,26 +148,22 @@ const deleteComment = async (req, res = response) => {
 
         let filtroDeleteComentarioPub = publicacion.comentarios.filter(comentario => {
             if(comentario._id.toString() !== comment._id.toString()) {
-                console.log('ENTRO DENTRO DEL IF DE USER COMMENT')
                 return comentario;
             }
         })
 
         publicacion.comentarios = filtroDeleteComentarioPub;
-
-        console.log(publicacion.comentarios)
-
         const publicationUpdated = publicacion
         await publicacion.updateOne(publicationUpdated);
 
         await Comment.findByIdAndDelete(_id);
 
         res.status(200).send('Comentario eliminado');
+
     } catch(error) {
         console.log(error)
         res.sendStatus(500)
     }
-
 }
 
 module.exports = {

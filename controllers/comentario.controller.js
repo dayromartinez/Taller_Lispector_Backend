@@ -1,4 +1,3 @@
-const comentarioModel = require('../models/Comentario');
 const { getAllCommentsOfPublicationID, getAllCommentsByUserID, createComments, updateComment, deleteComment } = require('../services/comment.service');
 const express = require('express');
 const router = express.Router();
