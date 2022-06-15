@@ -19,9 +19,11 @@ const createUser = async(req, res = response) => {
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync (password,salt);
 
+        console.log('USER: ', user)
+
         await user.save()
 
-        const token = await generateJWT(user._id, user.name, user.role, user.publicationsCode, user.email)
+        const token = await generateJWT(user._id, user.name, user.role, user.publicationsCode, user.email, user.comments)
         res.status(201).send({token})
 
     } catch (error) {
@@ -38,7 +40,7 @@ const loginUser = async (req, res = response) => {
 
         let user = await Usuario.findOne({email});
         if(!user) return res.status(400).send({ ok: false, msg: 'El usuario no existe'})
-        const token = await generateJWT (user.id, user.name, user.role, user.publicationsCode, user.email)
+        const token = await generateJWT (user.id, user.name, user.role, user.publicationsCode, user.email, user.comments)
         const validarPassword = bcrypt.compareSync(password, user.password)
         
         !validarPassword ? res.status(400).send({msg: 'Correo o contraseña incorrectos'}) : res.status(200).send({token}) //user

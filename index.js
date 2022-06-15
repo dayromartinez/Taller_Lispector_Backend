@@ -3,6 +3,7 @@ const {} = require('./repositories/mongoAdapter');
 require('dotenv').config();
 const userController = require('./controllers/user.controller');
 const publicationController = require('./controllers/publicacion.controller');
+const commentController = require('./controllers/comentario.controller');
 const cors = require('cors');
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/auth', userController);
 app.use('/publications', publicationController);
+app.use('/comments', commentController);
 
 // Routes
 app.get('/', (req, res) => {

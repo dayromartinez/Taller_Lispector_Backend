@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
         },
         default: 'user'
     },
+    comments: {type: Array, required: false, trim: false, default: []},
     publicationsCode: { type: Array, required: false, trim: false, default: [] },
     password: { type: String, required: true, trim: true }
 }, { timestamps: true });

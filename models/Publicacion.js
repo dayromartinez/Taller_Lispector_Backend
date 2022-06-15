@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const publicationSchema = new mongoose.Schema({
-    nombre: { type: String, required: true, trim: true },
+    nombre: { type: String, required: true, trim: true, unique: true },
     descripcion: { type: String, required: true, trim: true },
     numeroPaginas: { type: String, required: false, trim: false },
     anoLanzamiento: { type: String, required: true, trim: true },

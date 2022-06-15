@@ -111,6 +111,7 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
             publicacion.codigosPublicacion.forEach(codigo => {
 
                 if(nombre === codigo.publicacion && codigo.codigoPublicacion === codigoPublicacion && codigo.enUso === true) {
+                    
                     codigoUsado = true;
                     return;
 
