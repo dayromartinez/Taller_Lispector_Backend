@@ -19,11 +19,11 @@ const createUser = async(req, res = response) => {
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync (password,salt);
 
-        console.log('USER: ', user)
+        user.colorProfile = Math.floor(7 * Math.random())
 
         await user.save()
 
-        const token = await generateJWT(user._id, user.name, user.role, user.publicationsCode, user.email, user.comments)
+        const token = await generateJWT(user._id, user.name, user.role, user.publicationsCode, user.email, user.comments, user.colorProfile)
         res.status(201).send({token})
 
     } catch (error) {
@@ -40,7 +40,7 @@ const loginUser = async (req, res = response) => {
 
         let user = await Usuario.findOne({email});
         if(!user) return res.status(400).send({ ok: false, msg: 'El usuario no existe'})
-        const token = await generateJWT (user.id, user.name, user.role, user.publicationsCode, user.email, user.comments)
+        const token = await generateJWT (user.id, user.name, user.role, user.publicationsCode, user.email, user.comments, user.colorProfile)
         const validarPassword = bcrypt.compareSync(password, user.password)
         
         !validarPassword ? res.status(400).send({msg: 'Correo o contraseña incorrectos'}) : res.status(200).send({token}) //user
@@ -51,8 +51,8 @@ const loginUser = async (req, res = response) => {
 }
 
 const revalidarToken = async (req, res = response)=>{
-    const {uid, name, role, publicationsCode, email} = req
-    const token = await generateJWT (uid, name, role, postalPublicationCode, email)
+    const {uid, name, role, publicationsCode, email, colorProfile} = req
+    const token = await generateJWT (uid, name, role, postalPublicationCode, email, colorProfile)
     res.send(token)
 }
 

@@ -15,7 +15,8 @@ const userSchema = new mongoose.Schema({
     },
     comments: {type: Array, required: false, trim: false, default: []},
     publicationsCode: { type: Array, required: false, trim: false, default: [] },
-    password: { type: String, required: true, trim: true }
+    password: { type: String, required: true, trim: true },
+    colorProfile: { type: Number, required: false, trim: false, default: 0 },
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);
