@@ -2,8 +2,7 @@ const express = require('express');
 const {check}  = require ('express-validator');
 const { validarJWTUser } = require('../middlewares/validateJWT');
 const { validateUser } = require('../middlewares/validateUser');
-const { createUser, loginUser } = require('../services/user.service');
-//const { createUser, loginUser } = require('../services/user.service')
+const { createUser, loginUser, getUser } = require('../services/user.service');
 
 const router = express.Router();
 
@@ -16,6 +15,15 @@ router.post(
         validateUser
     ],
     createUser
+);
+
+router.get(
+    '/:id', 
+    [
+        check('id','El id es obligatorio').isMongoId().not().isEmpty(),
+        validateUser
+    ],
+    getUser
 );
 
 router.post(

@@ -32,6 +32,22 @@ const createUser = async(req, res = response) => {
     }
 }
 
+const getUser = async (req, res = response) => {
+
+    const { id } = req.params;
+
+    try {
+
+        let user = await Usuario.findOne({id});
+        if(!user) return res.status(400).send({ ok: false, msg: 'El usuario no existe'})
+        const token = await generateJWT (user.id, user.name, user.role, user.publicationsCode, user.email, user.comments, user.colorProfile)
+        res.status(200).send({token})
+
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 const loginUser = async (req, res = response) => {
 
     const {email, password} = req.body;
@@ -59,8 +75,6 @@ const revalidarToken = async (req, res = response)=>{
 module.exports = {
     createUser,
     loginUser,
-    revalidarToken
+    revalidarToken,
+    getUser
 }
-
-
-//{"_id":{"$oid":"62994aad90db5aacdeacab07"},"name":"Clarice Lispector","email":"elhuevoylagallina@gmail.com","imageUser":"","phone":"3123158165","role":"user","postalPublicationCode":"VAJT-BBKP-HGJQ-BHTG","password":"$2a$10$15hN3p..Daym48mxxb.O0OMhafupKBFlKLWDARZyq7UAHxrgV/TQq","createdAt":{"$date":"2022-06-02T23:41:33.270Z"},"updatedAt":{"$date":"2022-06-03T19:19:08.688Z"},"__v":0}
