@@ -17,6 +17,8 @@ router.post(
     createUser
 );
 
+router.get('/validateToken', validarJWTUser);
+
 router.get(
     '/:id', 
     [
@@ -35,8 +37,6 @@ router.post(
     ],
     loginUser
 );
-
-router.get('/validateToken', validarJWTUser);
 
 
 module.exports = router;
