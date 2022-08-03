@@ -6,7 +6,7 @@ const getAllPublicaciones = async(req, res = response)=>{
 
     try {
 
-        let publicaciones = await Publicacion.find().reverse() || [];
+        let publicaciones = (await Publicacion.find()).reverse() || [];
 
         if(publicaciones) return res.status(200).send({publicaciones})
 

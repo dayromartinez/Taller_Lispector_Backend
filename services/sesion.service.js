@@ -5,7 +5,7 @@ const getAllSesiones = async(req, res = response) => {
 
     try {
 
-        let sesiones = await Sesion.find().reverse();
+        let sesiones = (await Sesion.find()).reverse();
         if(sesiones) return res.status(200).send({sesiones})
 
     } catch (error) {
@@ -20,7 +20,7 @@ const getSesionesCiclo = async(req, res = response) => {
 
     try {
 
-        let sesionesCiclo = await Sesion.find({ ciclo }).reverse();
+        let sesionesCiclo = (await Sesion.find({ ciclo })).reverse();
         if(sesionesCiclo) return res.status(200).send({sesionesCiclo})
 
     } catch (error) {
