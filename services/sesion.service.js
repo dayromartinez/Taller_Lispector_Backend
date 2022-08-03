@@ -51,7 +51,7 @@ const getSesion = async(req, res = response) => {
 const crearSesion = async(req, res = response)=>{
 
     const { titulo, descripcion, fecha, hora, direccionSesion, gestores, 
-        ciclo, imagenSesion } = req.body;
+        ciclo, imagenSesion, descripcionCiclo } = req.body;
 
     try {
 
@@ -73,7 +73,7 @@ const crearSesion = async(req, res = response)=>{
 const actualizarSesion = async(req, res = response) => {
 
     const { _id, titulo, descripcion, fecha, hora, direccionSesion, gestores, 
-        ciclo, imagenSesion } = req.body;
+        ciclo, imagenSesion, descripcionCiclo } = req.body;
 
     try {
 
