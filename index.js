@@ -6,6 +6,7 @@ const publicationController = require('./controllers/publicacion.controller');
 const contenidoController = require('./controllers/contenido.controller')
 const commentController = require('./controllers/comentario.controller');
 const sesionController = require('./controllers/sesion.controller');
+const cicloController = require('./controllers/ciclo.controller');
 const cors = require('cors');
 const app = express();
 
@@ -17,6 +18,7 @@ app.use('/publications', publicationController);
 app.use('/content', contenidoController);
 app.use('/comments', commentController);
 app.use('/sesions', sesionController);
+app.use('/cicles', cicloController);
 
 // Routes
 app.get('/', (req, res) => {

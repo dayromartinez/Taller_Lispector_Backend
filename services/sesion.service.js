@@ -16,11 +16,11 @@ const getAllSesiones = async(req, res = response) => {
 
 const getSesionesCiclo = async(req, res = response) => {
 
-    const { ciclo } = req.params;
+    const { cicloId } = req.params;
 
     try {
 
-        let sesionesCiclo = (await Sesion.find({ ciclo })).reverse();
+        let sesionesCiclo = (await Sesion.find({ cicloId })).reverse();
         if(sesionesCiclo) return res.status(200).send({sesionesCiclo})
 
     } catch (error) {
@@ -50,8 +50,8 @@ const getSesion = async(req, res = response) => {
 
 const crearSesion = async(req, res = response)=>{
 
-    const { titulo, descripcion, fecha, hora, direccionSesion, gestores, 
-        ciclo, imagenSesion, descripcionCiclo } = req.body;
+    const { titulo, descripcion, fecha, hora, direccionSesion, gestores,
+        cicloId, imagenSesion} = req.body;
 
     try {
 
