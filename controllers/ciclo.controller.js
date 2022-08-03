@@ -1,6 +1,6 @@
 const express = require('express');
 const { check }  = require ('express-validator');
-const { getAllCiclos, getCiclo, crearCiclo, actualizarCiclo, deleteCiclo } = require('../services/sesion.service');
+const { getAllCiclos, getCiclo, crearCiclo, actualizarCiclo, deleteCiclo } = require('../services/ciclo.service');
 const router = express.Router();
 
 router.get('/', getAllCiclos);

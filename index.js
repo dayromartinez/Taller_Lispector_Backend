@@ -20,6 +20,7 @@ app.use('/comments', commentController);
 app.use('/sesions', sesionController);
 app.use('/cicles', cicloController);
 
+
 // Routes
 app.get('/', (req, res) => {
     res.send('¡Bienvenid@ a la API de Taller Lispector!');
