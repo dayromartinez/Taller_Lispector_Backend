@@ -1,41 +1,42 @@
 const express = require('express');
 const Comment = require('../models/Comentario');
+const Contenido = require('../models/Contenido');
 const Publicacion = require('../models/Publicacion');
 const Usuario = require('../models/Usuario');
 
-const getAllCommentsOfPublicationID = async (req, res = response) => {
+// const getAllCommentsOfPublicationID = async (req, res = response) => {
 
-    const { _id } = req.params;
+//     const { _id } = req.params;
 
-    try {
+//     try {
 
-        const publication = await Publicacion.findOne({ _id });
-        if (!publication) return res.status(404).send({ ok: false, msg: 'La publicación no existe' });
+//         const publication = await Publicacion.findOne({ _id });
+//         if (!publication) return res.status(404).send({ ok: false, msg: 'La publicación no existe' });
 
-        if(publication) return res.status(200).send( publication.comentarios.reverse() ); 
+//         if(publication) return res.status(200).send( publication.comentarios.reverse() ); 
         
-    } catch (error) {
-        console.log(error)
-        res.sendStatus(500)
-    }
-}
+//     } catch (error) {
+//         console.log(error)
+//         res.sendStatus(500)
+//     }
+// }
 
-const getAllCommentsByUserID = async (req, res = response) => {
+// const getAllCommentsByUserID = async (req, res = response) => {
 
-    const { _id } = req.params;
+//     const { _id } = req.params;
 
-    try {
+//     try {
     
-        const user = await Usuario.findOne({ _id });
-        if (!user) return res.status(404).send({ ok: false, msg: 'El usuario no existe' });
+//         const user = await Usuario.findOne({ _id });
+//         if (!user) return res.status(404).send({ ok: false, msg: 'El usuario no existe' });
 
-        if(user) return res.status(200).send( user.comments.reverse() );
+//         if(user) return res.status(200).send( user.comments.reverse() );
 
-    } catch (error) {
-        console.log(error)
-        res.sendStatus(500)
-    }
-}
+//     } catch (error) {
+//         console.log(error)
+//         res.sendStatus(500)
+//     }
+// }
 
 const createComments = async (req, res = response) => {
 
@@ -44,8 +45,9 @@ const createComments = async (req, res = response) => {
     try {
         
         const publication = await Publicacion.findOne({ _id: publicacionId });
+        const contenido = await Contenido.findOne({ _id: publicacionId });
 
-        if (!publication) return res.status(404).send({ ok: false, msg: 'La publicación no existe' });
+        if (!publication && !contenido) return res.status(404).send({ ok: false, msg: 'La publicación no existe' });
 
         const user = await Usuario.findOne({ _id: userId });
 
@@ -54,11 +56,6 @@ const createComments = async (req, res = response) => {
         const createComment = new Comment({publicacionId, userId, comentario, valoracion})
 
         const commentCreated = await createComment.save();
-
-        user.comments.push(commentCreated);
-        publication.comentarios.push(commentCreated);
-        user.save();
-        publication.save();
 
         res.status(201).send({commentCreated});
 
@@ -70,17 +67,9 @@ const createComments = async (req, res = response) => {
 
 const updateComment = async (req, res = response) => {
 
-    const { publicacionId, userId, comentario, valoracion, comentarioId } = req.body;
+    const { comentario, valoracion, comentarioId } = req.body;
 
     try {
-
-        const publication = await Publicacion.findOne({ _id: publicacionId });
-
-        if (!publication) return res.status(404).send({ ok: false, msg: 'La publicación no existe' });
-
-        const user = await Usuario.findOne({ _id: userId });
-
-        if (!user) return res.status(404).send({ ok: false, msg: 'El usuario no existe' });
 
         const comment = await Comment.findOne({ _id: comentarioId });
 
@@ -88,29 +77,7 @@ const updateComment = async (req, res = response) => {
 
         comment.comentario = comentario;
         comment.valoracion = valoracion;
-
         const commentUpdated = await comment.save();
-
-        user.comments.forEach(comentario => {
-            const { _id: { ObjectId } } = comment;
-            if(comentario._id.toString() === commentUpdated._id.toString()) {
-                comentario.comentario = commentUpdated.comentario;
-                comentario.valoracion = commentUpdated.valoracion;
-            }
-        })
-
-        const userUpdated = user
-        await user.updateOne(userUpdated);
-
-        publication.comentarios.forEach(comentario => {
-            if(comentario._id.toString() === commentUpdated._id.toString()) {
-                comentario.comentario = commentUpdated.comentario;
-                comentario.valoracion = commentUpdated.valoracion;
-            }
-        })
-
-        const publicationUpdated = publication
-        await publication.updateOne(publicationUpdated);
 
         res.status(200).send({commentUpdated});
         
@@ -131,31 +98,6 @@ const deleteComment = async (req, res = response) => {
 
         if (!comment) return res.status(404).send({ ok: false, msg: 'El comentario no existe' });
 
-        const user = await Usuario.findOne({ _id: comment.userId });
-
-        let filtroDeleteComentarioUser = user.comments.filter(comentario => {
-            if(comentario._id.toString() !== comment._id.toString()) {
-                return comentario;
-            }
-        })
-
-        user.comments = filtroDeleteComentarioUser;
-
-        const userUpdated = user
-        await user.updateOne(userUpdated);
-
-        const publicacion = await Publicacion.findOne({ _id: comment.publicacionId });
-
-        let filtroDeleteComentarioPub = publicacion.comentarios.filter(comentario => {
-            if(comentario._id.toString() !== comment._id.toString()) {
-                return comentario;
-            }
-        })
-
-        publicacion.comentarios = filtroDeleteComentarioPub;
-        const publicationUpdated = publicacion
-        await publicacion.updateOne(publicationUpdated);
-
         await Comment.findByIdAndDelete(_id);
 
         res.status(200).send('Comentario eliminado');
@@ -167,8 +109,8 @@ const deleteComment = async (req, res = response) => {
 }
 
 module.exports = {
-    getAllCommentsOfPublicationID,
-    getAllCommentsByUserID,
+    //getAllCommentsOfPublicationID,
+    //getAllCommentsByUserID,
     createComments,
     updateComment,
     deleteComment

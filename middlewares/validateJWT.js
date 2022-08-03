@@ -2,7 +2,7 @@ const jwt = require ('jsonwebtoken')
 const {KEY_TOKEN} = process.env
 
 
-const validarJWTAdmin= (req,res,next)=>{
+const validarJWTAdmin = (req,res,next)=>{
     
     const token = req.header('x-token');
     
@@ -28,7 +28,7 @@ const validarJWTAdmin= (req,res,next)=>{
 
 }
 
-const validarJWTUser= (req,res,next)=>{
+const validarJWTUser = (req,res,next)=>{
     
     const token = req.header('x-token');
 

@@ -1,4 +1,6 @@
-const { response } = require('express')
+const { response } = require('express');
+const Comentario = require('../models/Comentario');
+const Contenido = require('../models/Contenido');
 const Publicacion = require("../models/Publicacion");
 const Usuario = require("../models/Usuario");
 
@@ -18,13 +20,40 @@ const getAllPublicaciones = async(req, res = response)=>{
 
 const getPublicacion = async(req, res = response)=>{
 
-    const { id } = req.params;
+    const { _id } = req.params;
 
     try {
 
-        let publicacion = await Publicacion.findOne({ id });
+        let publicacion = await Publicacion.findOne({ _id });
         if(publicacion) {
+            
+            let comentarios = await Comentario.find();
+            let comentariosPublicacion = comentarios.filter((comentario) => {
+                return comentario.publicacionId === publicacion.id
+            })
+            
+            if(comentariosPublicacion.length > 0) publicacion.comentarios = comentariosPublicacion;
+
+            let contenidos = await Contenido.find()
+            let contenidoPublicacion = contenidos.filter((contenido) =>{
+                return contenido.publicacionId === publicacion.id
+            })
+
+            if(contenidoPublicacion.length > 0) {
+
+                let comentariosContenido;
+                contenidoPublicacion.forEach(async (contenido) => {
+                    comentariosContenido = comentarios.filter((comentario) => {
+                        return comentario.publicacionId === contenido._id.toString()
+                    })
+                    if(comentariosContenido.length > 0) contenido.comentarios = comentariosContenido;
+                })
+                publicacion.contenido = contenidoPublicacion;
+
+            }
+            
             return res.status(200).send({publicacion})
+
         }else{
             return res.status(404).send({ ok: false, msg: 'La publicación no existe'})
         }
@@ -38,7 +67,7 @@ const getPublicacion = async(req, res = response)=>{
 const crearPublicacion = async(req, res = response)=>{
 
     const { nombre, descripcion, numeroPaginas, anoLanzamiento, autores, generos, 
-        urlDocumento, urlImagen, comentarios, codigosPublicacion } = req.body;
+        urlDocumento, urlImagen, comentarios, codigosPublicacion, contenido } = req.body;
 
     try {
 
@@ -60,7 +89,7 @@ const crearPublicacion = async(req, res = response)=>{
 const actualizarPublicacion = async(req, res = response)=>{
 
     const { _id, nombre, descripcion, numeroPaginas, anoLanzamiento, autores, generos, 
-        urlDocumento, urlImagen, comentarios, codigosPublicacion } = req.body;
+        urlDocumento, urlImagen, comentarios, codigosPublicacion, contenido } = req.body;
 
     try {
 
@@ -73,6 +102,34 @@ const actualizarPublicacion = async(req, res = response)=>{
         }else{
             return res.status(400).send({ ok: false, msg: 'La publicación no existe'})
         }
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500)
+    }
+}
+
+const deletePublication = async(req, res = response)=>{
+
+    const { id } = req.params;
+
+    try {
+
+        let publicacion = await Publicacion.findOne({ id });
+        if(!publicacion) return res.status(400).send({ ok: false, msg: 'La publicación no existe'})
+        
+        let comentarios = await Comentario.find();
+        comentarios.forEach(async (comentario) => {
+            if(comentario.publicacionId === id) await Comentario.findByIdAndDelete(comentario._id);
+        })
+        
+        let contenidos = await Contenido.find();
+        contenidos.forEach(async (contenido) => {
+            if(contenido.publicacionId === id) await Contenido.findByIdAndDelete(contenido._id);
+        })
+        
+        await Publicacion.findByIdAndDelete(id);
+        res.status(200).send({ ok: true, msg: 'La publicación, sus contenidos y comentarios, han sido eliminados'})
 
     } catch (error) {
         console.log(error)
@@ -157,5 +214,6 @@ module.exports = {
     getPublicacion,
     crearPublicacion,
     actualizarPublicacion,
+    deletePublication,
     reservarCodigoPublicacion
 }

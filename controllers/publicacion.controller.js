@@ -1,11 +1,11 @@
 const express = require('express');
 const { check }  = require ('express-validator');
-const { getAllPublicaciones, getPublicacion, crearPublicacion, actualizarPublicacion, reservarCodigoPublicacion } = require('../services/publication.service');
+const { getAllPublicaciones, getPublicacion, crearPublicacion, actualizarPublicacion, deletePublication, reservarCodigoPublicacion } = require('../services/publication.service');
 const router = express.Router();
 
 router.get('/getAll', getAllPublicaciones);
 
-router.get('/:id', getPublicacion);
+router.get('/:_id', getPublicacion);
 
 router.post(
     '/createPublication',
@@ -40,6 +40,14 @@ router.put(
         check('codigoPublicacion','El código de publicación es requerido').isLength({min:11}).not().isEmpty(),
     ],
     reservarCodigoPublicacion
+);
+
+router.delete(
+    '/:id',
+    [
+        check('id','El id es obligatorio').isMongoId().not().isEmpty(),
+    ],
+    deletePublication
 );
 
 

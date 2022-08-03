@@ -3,6 +3,7 @@ const {} = require('./repositories/mongoAdapter');
 require('dotenv').config();
 const userController = require('./controllers/user.controller');
 const publicationController = require('./controllers/publicacion.controller');
+const contenidoController = require('./controllers/contenido.controller')
 const commentController = require('./controllers/comentario.controller');
 const sesionController = require('./controllers/sesion.controller');
 const cors = require('cors');
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/auth', userController);
 app.use('/publications', publicationController);
+app.use('/content', contenidoController);
 app.use('/comments', commentController);
 app.use('/sesions', sesionController);
 

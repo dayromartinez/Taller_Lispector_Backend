@@ -7,6 +7,7 @@ const publicationSchema = new mongoose.Schema({
     anoLanzamiento: { type: String, required: true, trim: true },
     autores: { type: Array, required: true, trim: false },
     generos: { type: Array, required: true, trim: false },
+    contenido: { type: Array, required: false, trim: false },
     urlDocumento: { type: String, required: true, trim: true },
     urlImagen: { type: String, required: true, trim: true },
     comentarios: { type: Array, required: false, trim: false },
