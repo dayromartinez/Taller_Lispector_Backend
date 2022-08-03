@@ -12,7 +12,7 @@ const getAllCommentsOfPublicationID = async (req, res = response) => {
         const publication = await Publicacion.findOne({ _id });
         if (!publication) return res.status(404).send({ ok: false, msg: 'La publicación no existe' });
 
-        if(publication) return res.status(200).send( publication.comentarios ); 
+        if(publication) return res.status(200).send( publication.comentarios.reverse() ); 
         
     } catch (error) {
         console.log(error)
@@ -29,7 +29,7 @@ const getAllCommentsByUserID = async (req, res = response) => {
         const user = await Usuario.findOne({ _id });
         if (!user) return res.status(404).send({ ok: false, msg: 'El usuario no existe' });
 
-        if(user) return res.status(200).send( user.comments ); //TODO: revisar si esto es correcto
+        if(user) return res.status(200).send( user.comments.reverse() );
 
     } catch (error) {
         console.log(error)
