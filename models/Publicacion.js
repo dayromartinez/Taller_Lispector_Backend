@@ -8,6 +8,7 @@ const publicationSchema = new mongoose.Schema({
     autores: { type: Array, required: true, trim: false },
     generos: { type: Array, required: true, trim: false },
     urlDocumento: { type: String, required: true, trim: true },
+    urlImagen: { type: String, required: true, trim: true },
     comentarios: { type: Array, required: false, trim: false },
     codigosPublicacion: { type: Array, required: true, trim: false },
 }, { timestamps: true });

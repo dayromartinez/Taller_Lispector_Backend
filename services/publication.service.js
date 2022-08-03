@@ -37,7 +37,7 @@ const getPublicacion = async(req, res = response)=>{
 const crearPublicacion = async(req, res = response)=>{
 
     const { nombre, descripcion, numeroPaginas, anoLanzamiento, autores, generos, 
-        urlDocumento, comentarios, codigosPublicacion } = req.body;
+        urlDocumento, urlImagen, comentarios, codigosPublicacion } = req.body;
 
     try {
 
@@ -59,7 +59,7 @@ const crearPublicacion = async(req, res = response)=>{
 const actualizarPublicacion = async(req, res = response)=>{
 
     const { _id, nombre, descripcion, numeroPaginas, anoLanzamiento, autores, generos, 
-        urlDocumento, comentarios, codigosPublicacion } = req.body;
+        urlDocumento, urlImagen, comentarios, codigosPublicacion } = req.body;
 
     try {
 
