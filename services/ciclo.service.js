@@ -14,10 +14,10 @@ const getAllCiclos = async(req, res = response) => {
                 let sesionesCiclo = sesiones.filter((sesion) => {
                     return sesion.cicloId === ciclo._id.toString()
                 })
-                if(sesionesCiclo.length > 0) ciclo.sesiones = sesionesCiclo;
+                if(sesionesCiclo.length > 0) ciclo.sesiones = sesionesCiclo.reverse();
             })
             return res.status(200).send({ciclos})
-            
+
         }
 
     } catch (error) {
@@ -39,7 +39,7 @@ const getCiclo = async(req, res = response) => {
                 return sesion.cicloId === _id;
             })
 
-            if(sesionesCiclo.length > 0) ciclo.sesiones = sesionesCiclo;
+            if(sesionesCiclo.length > 0) ciclo.sesiones = sesionesCiclo.reverse();
 
             return res.status(200).send({ciclo})
 
