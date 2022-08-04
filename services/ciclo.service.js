@@ -7,18 +7,17 @@ const getAllCiclos = async(req, res = response) => {
     try {
 
         let ciclos = (await Ciclo.find()).reverse();
+        let sesiones = await Sesion.find();
         if(ciclos) {
-            let ciclosConSesiones = ciclos.map(async (ciclo) =>{
-                let sesiones = await Sesion.find();
+
+            ciclos.forEach(async (ciclo) => {
                 let sesionesCiclo = sesiones.filter((sesion) => {
                     return sesion.cicloId === ciclo._id.toString()
                 })
-
                 if(sesionesCiclo.length > 0) ciclo.sesiones = sesionesCiclo;
-
             })
-
-            return res.status(200).send({ciclosConSesiones})
+            return res.status(200).send({ciclos})
+            
         }
 
     } catch (error) {
