@@ -8,7 +8,7 @@ const getAllCiclos = async(req, res = response) => {
 
         let ciclos = (await Ciclo.find()).reverse();
         if(ciclos) {
-            let ciclosConSesiones = ciclos.map((ciclo) =>{
+            let ciclosConSesiones = ciclos.map(async (ciclo) =>{
                 let sesiones = await Sesion.find();
                 let sesionesCiclo = sesiones.filter((sesion) => {
                     return sesion.cicloId === ciclo._id.toString()

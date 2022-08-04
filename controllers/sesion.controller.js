@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', getAllSesiones);
 
-router.get('/ciclo/:ciclo', getSesionesCiclo);
+router.get('/ciclo/:cicloId', getSesionesCiclo);
 
 router.get('/getSesion/:id', getSesion);
 
@@ -17,7 +17,7 @@ router.post(
         check('fecha','La fecha es requerida').not().isEmpty(),
         check('hora','La hora es requerida').not().isEmpty(),
         check('direccionSesion','La dirección es requerida').not().isEmpty(),
-        check('ciclo','El ciclo es requerido').not().isEmpty(),
+        check('cicloId','El id del ciclo es requerido').isMongoId().not().isEmpty(),
         check('imagenSesion','La url de la pieza gráfica de la sesión es requerida').not().isEmpty(),
     ],
     crearSesion

@@ -73,7 +73,7 @@ const crearSesion = async(req, res = response)=>{
 const actualizarSesion = async(req, res = response) => {
 
     const { _id, titulo, descripcion, fecha, hora, direccionSesion, gestores, 
-        ciclo, imagenSesion, descripcionCiclo } = req.body;
+        cicloId, imagenSesion } = req.body;
 
     try {
 

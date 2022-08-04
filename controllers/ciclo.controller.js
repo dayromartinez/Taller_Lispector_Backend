@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', getAllCiclos);
 
-router.get('/getCiclo/:id', getCiclo);
+router.get('/getCiclo/:_id', getCiclo);
 
 router.post(
     '/createCiclo',
