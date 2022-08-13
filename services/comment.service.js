@@ -4,40 +4,6 @@ const Contenido = require('../models/Contenido');
 const Publicacion = require('../models/Publicacion');
 const Usuario = require('../models/Usuario');
 
-// const getAllCommentsOfPublicationID = async (req, res = response) => {
-
-//     const { _id } = req.params;
-
-//     try {
-
-//         const publication = await Publicacion.findOne({ _id });
-//         if (!publication) return res.status(404).send({ ok: false, msg: 'La publicación no existe' });
-
-//         if(publication) return res.status(200).send( publication.comentarios.reverse() ); 
-        
-//     } catch (error) {
-//         console.log(error)
-//         res.sendStatus(500)
-//     }
-// }
-
-// const getAllCommentsByUserID = async (req, res = response) => {
-
-//     const { _id } = req.params;
-
-//     try {
-    
-//         const user = await Usuario.findOne({ _id });
-//         if (!user) return res.status(404).send({ ok: false, msg: 'El usuario no existe' });
-
-//         if(user) return res.status(200).send( user.comments.reverse() );
-
-//     } catch (error) {
-//         console.log(error)
-//         res.sendStatus(500)
-//     }
-// }
-
 const createComments = async (req, res = response) => {
 
     const { publicacionId, userId, comentario, valoracion } = req.body;
@@ -53,7 +19,7 @@ const createComments = async (req, res = response) => {
 
         if (!user) return res.status(404).send({ ok: false, msg: 'El usuario no existe' });
 
-        const createComment = new Comment({publicacionId, userId, comentario, valoracion})
+        const createComment = new Comment({publicacionId, userId, comentario, valoracion, nombreUsuario: user.name});
 
         const commentCreated = await createComment.save();
 
@@ -109,8 +75,6 @@ const deleteComment = async (req, res = response) => {
 }
 
 module.exports = {
-    //getAllCommentsOfPublicationID,
-    //getAllCommentsByUserID,
     createComments,
     updateComment,
     deleteComment

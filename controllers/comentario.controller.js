@@ -1,11 +1,8 @@
-const { /*getAllCommentsOfPublicationID, getAllCommentsByUserID,*/ createComments, updateComment, deleteComment } = require('../services/comment.service');
+const { createComments, updateComment, deleteComment } = require('../services/comment.service');
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
 
-// router.get('/getAllCommentsOfPublication/:_id', getAllCommentsOfPublicationID);
-
-// router.get('/getAllCommentsByUser/:_id', getAllCommentsByUserID);
 
 router.post('/createComment', [
     check('publicacionId','El id de la publicación es requerido').not().isEmpty(),
