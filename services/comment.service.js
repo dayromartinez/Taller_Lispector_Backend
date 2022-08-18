@@ -66,7 +66,7 @@ const deleteComment = async (req, res = response) => {
 
         await Comment.findByIdAndDelete(_id);
 
-        res.status(200).send('Comentario eliminado');
+        res.status(200).send({ msg: 'Comentario eliminado'});
 
     } catch(error) {
         console.log(error)
