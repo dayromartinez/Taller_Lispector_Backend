@@ -197,7 +197,7 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
             await publicacion.updateOne(publicacionActualizada)
             usuarioActualizado = new Usuario(usuario)
             await usuario.updateOne(usuarioActualizado)
-            res.status(200).send("La reserva del código de la publicación ha sido realizada con éxito")
+            res.status(200).send({msg: "La reserva del código de la publicación ha sido realizada con éxito"});
 
         }else{
             return res.status(400).send({ ok: false, msg: 'La publicación o el usuario no existen'})
