@@ -161,19 +161,9 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
                 }
             }
 
-            
-
             if(usuario.publicationsCode.includes(nombre)){
                 codigoUsadoEnMismaPublicacion = true;
-                return;
             }
-
-            // usuario.publicationsCode.forEach(codigoPublicacion => {
-            //     if(nombre === codigoPublicacion.publicacion){
-            //         codigoUsadoEnMismaPublicacion = true;
-            //         return;
-            //     }
-            // })
 
             if(codigoUsadoEnMismaPublicacion){
                 return res.status(400).send({ ok: false, msg: 'Este usuario ya tiene un código asignado para esta publicación'})
@@ -190,10 +180,6 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
 
                     codigo.enUso = true;
                     usuario.publicationsCode.push(codigo.publicacion);
-                    // usuario.publicationsCode.push({
-                    //     publicacion: codigo.publicacion,
-                    //     codigoPublicacion: codigo.codigoPublicacion
-                    // })
                     match = true;
                     return;
                 }
