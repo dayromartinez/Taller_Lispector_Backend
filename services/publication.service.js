@@ -151,16 +151,29 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
     
         if(publicacion && usuario) {
 
-            if(nombre !== publicacion.nombre){
-                return res.status(400).send({ ok: false, msg: 'El nombre de la publicación no coincide'})
+            if(publicacion.nombre === "El tiempo en que no nos vimos"){
+                if(nombre !== "Postales"){
+                    return res.status(400).send({ ok: false, msg: 'El nombre de la publicación no coincide'})
+                }
+            }else{
+                if(nombre !== publicacion.nombre){
+                    return res.status(400).send({ ok: false, msg: 'El nombre de la publicación no coincide'})
+                }
             }
 
-            usuario.publicationsCode.forEach(codigoPublicacion => {
-                if(nombre === codigoPublicacion.publicacion){
-                    codigoUsadoEnMismaPublicacion = true;
-                    return;
-                }
-            })
+            
+
+            if(usuario.publicationsCode.includes(nombre)){
+                codigoUsadoEnMismaPublicacion = true;
+                return;
+            }
+
+            // usuario.publicationsCode.forEach(codigoPublicacion => {
+            //     if(nombre === codigoPublicacion.publicacion){
+            //         codigoUsadoEnMismaPublicacion = true;
+            //         return;
+            //     }
+            // })
 
             if(codigoUsadoEnMismaPublicacion){
                 return res.status(400).send({ ok: false, msg: 'Este usuario ya tiene un código asignado para esta publicación'})
@@ -175,12 +188,13 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
 
                 }else if(nombre === codigo.publicacion && codigo.codigoPublicacion === codigoPublicacion && codigo.enUso === false) {
 
-                    codigo.enUso = true
-                    usuario.publicationsCode.push({
-                        publicacion: codigo.publicacion,
-                        codigoPublicacion: codigo.codigoPublicacion
-                    })
-                    match = true
+                    codigo.enUso = true;
+                    usuario.publicationsCode.push(codigo.publicacion);
+                    // usuario.publicationsCode.push({
+                    //     publicacion: codigo.publicacion,
+                    //     codigoPublicacion: codigo.codigoPublicacion
+                    // })
+                    match = true;
                     return;
                 }
             });
