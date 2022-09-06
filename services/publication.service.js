@@ -144,6 +144,7 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
     let codigoUsado = false;
     let codigoUsadoEnMismaPublicacion = false;
 
+
     try {
 
         let publicacion = await Publicacion.findOne({ _id });
@@ -151,15 +152,11 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
     
         if(publicacion && usuario) {
 
-            if(publicacion.nombre === "El tiempo en que no nos vimos"){
-                if(nombre !== "Postales"){
-                    return res.status(400).send({ ok: false, msg: 'El nombre de la publicación no coincide'})
-                }
-            }else{
-                if(nombre !== publicacion.nombre){
-                    return res.status(400).send({ ok: false, msg: 'El nombre de la publicación no coincide'})
-                }
+            
+            if(nombre !== publicacion.nombre){
+                return res.status(400).send({ ok: false, msg: 'El nombre de la publicación no coincide'})
             }
+            
 
             if(usuario.publicationsCode.includes(nombre)){
                 codigoUsadoEnMismaPublicacion = true;
@@ -169,8 +166,7 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
                 return res.status(400).send({ ok: false, msg: 'Este usuario ya tiene un código asignado para esta publicación'})
             }
 
-            publicacion.codigosPublicacion.forEach(codigo => {
-
+            publicacion.codigosPublicacion.forEach((codigo, index) => {
                 if(nombre === codigo.publicacion && codigo.codigoPublicacion === codigoPublicacion && codigo.enUso === true) {
                     
                     codigoUsado = true;
