@@ -6,7 +6,7 @@ const generateJWT =(uid, name, role, publicationsCode, email, comments, colorPro
         const payload = {uid, name, role, publicationsCode, email, comments, colorProfile};
 
         jwt.sign(payload,KEY_TOKEN, {
-            expiresIn: '1d'
+            expiresIn: '2h'
         },(err , token)=>{
             err ? reject('No se puede generar el token') : resolve (token)
         })

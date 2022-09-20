@@ -1,5 +1,5 @@
 const jwt = require ('jsonwebtoken')
-const {KEY_TOKEN} = process.env
+const { KEY_TOKEN } = process.env
 
 
 const validarJWTAdmin = (req,res,next)=>{
@@ -55,7 +55,7 @@ const validarJWTUser = (req,res,next)=>{
         res.status(200).json({ ok: true, msg: 'Token valido', uid, name, role, publicationsCode, email, comments, colorProfile } );
         
     } catch (error) {
-        return res.status(401).json({ok:false,msg:'No hay token en la peticion'})
+        return res.status(401).json({ok:false,msg:'No hay token en la peticion o el token está caducado'})
     }
     next()
 }
