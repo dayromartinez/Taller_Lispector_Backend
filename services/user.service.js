@@ -87,14 +87,14 @@ const sendEmail = async (email, password) => {
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-          user: process.env.FROM_EMAIL_EMAIL, // generated ethereal user
-          pass: process.env.FROM_EMAIL_PASSWORD, // generated ethereal password
+          user: 'tallerlispector@gmail.com', // generated ethereal user
+          pass: 'nonjlgulbysxtrdk', // generated ethereal password
         },
     });
 
     // send mail with defined transport object
     const info = await transporter.sendMail({
-        from: process.env.FROM_EMAIL_EMAIL, // sender address
+        from: 'tallerlispector@gmail.com', // sender address
         to: `${user.email}`, // list of receivers
         subject: "¡Bienvenid@ a Taller Lispector!", // Subject line
         html: `<!DOCTYPE html>
