@@ -95,6 +95,7 @@ const sendEmail = async (email, password) => {
     // send mail with defined transport object
     const info = await transporter.sendMail({
         from: 'tallerlispector@gmail.com', // sender address
+        //TODO: Probar con múltiples destinatarios
         to: `${user.email}`, // list of receivers
         subject: "¡Bienvenid@ a Taller Lispector!", // Subject line
         html: `<!DOCTYPE html>
@@ -105,27 +106,21 @@ const sendEmail = async (email, password) => {
                 body {
                     font-family: 'Arial'
                 }
+
                 .navbar-email {
-                    background-color: #9FD5D1;  
-                    display: flex;
-                    justify-content: center;
+                    background-color: #9FD5D1;
                     border-radius: 5px;
                     padding: 1rem;
+                    text-align: center;
                 }
         
                 .logo-taller-email{
                     width: 15rem;
-                    margin: 0rem 5rem 0rem 2rem;
                 }
         
                 .titulo-email {
                     color: #4D4D4D;
                     text-align: center;
-                }
-        
-                .imagen-footer-email{
-                    width: 98vw;
-                    height: 60vh;
                 }
         
                 .boton_inicio_sesion_email{
@@ -139,27 +134,28 @@ const sendEmail = async (email, password) => {
         
                 .boton_inicio_sesion_email:hover {
                     background-color: #195ef1;
+                    color: white;
                 }
             </style>
             <title>¡Bienvenid@ a Taller Lispector!</title>
           </head>
           <body>
-            <nav class="navbar-email">
-                <a href="https://www.tallerlispector.com/" target="_blank">
-                    <img class="logo-taller-email" src="cid:Logo_Lispector_Completo" alt="Logo App" />
-                </a>
-            </nav>
+            <div class="navbar-email">
+            <a href="https://www.tallerlispector.com/" target="_blank">
+                <img class="logo-taller-email" src="cid:Logo_Lispector_Completo" alt="Logo App" />
+            </a>
+            </div>
             <br />
-            <h1 class="titulo-email">¡Bienvenid@ a Taller Lispector!</h1>
-            <p style="text-align: center;">Acabas de registrar tu cuenta en nuestra página web. ¡Ahora puedes disfrutar de todas las funcionalidades que disponemos para ti!</p>
+            <h1 class="titulo-email">¡Bienvenid@ a Taller Lispector! 👋🏽</h1>
+            <p style="text-align: center; color: #4D4D4D; text-align: justify;">Acabas de registrar tu cuenta en nuestra página web. ¡Ahora puedes disfrutar de todas las funcionalidades que disponemos para ti! 📚</p>
             <br />
-            <h3 style="color: #4D4D4D;">${user.name}, a continuación encontrarás las credenciales de tu cuenta. Recuerda tenerlas a la mano ya que no disponemos del servicio de recuperación de contraseña. Ten muy presente esta información, ¡por amor a Clarice!</h3>
+            <h3 style="color: #4D4D4D;">${user.name}, a continuación encontrarás las credenciales de tu cuenta. Recuerda tenerlas a la mano ya que no disponemos del servicio de recuperación de contraseña. Ten muy presente esta información, ¡por amor a Clarice! 👩🏼</h3>
             <br />
             <div style="text-align: center;">
-                <h2 style="color: #9FD5D1;">Correo Electrónico</h2>
+                <h2 style="color: #9FD5D1;">Correo Electrónico 📬</h2>
                 <h3 style="color: #4D4D4D;"><i>${email}</i></h3>
                 <br />
-                <h2 style="color: #9FD5D1;">Contraseña</h2>
+                <h2 style="color: #9FD5D1;">Contraseña 🔒</h2>
                 <h3 style="color: #4D4D4D;"><i>${password}</i></h3>
                 <br />
                 <br />
@@ -167,15 +163,18 @@ const sendEmail = async (email, password) => {
                 <a class="boton_inicio_sesion_email" href="https://www.tallerlispector.com/inicio_sesion" target="_blank">Iniciar Sesión</a>
                 <br />
                 <br />
+                <br />
+                <br />
+                <p style="text-align: left; font-size: 0.8rem; color: #4D4D4D;">Cualquier duda, responde a este mail. Estamos aquí para ayudarte. 💙</p>
+                <br />
+                <p style="text-align: left; font-size: 0.8rem; color: #4D4D4D;">Un abrazo,</p>
+                <p style="text-align: left; font-size: 0.8rem; color: #4D4D4D; font-weight: bold;">Colectivo Taller Lispector 📖</p>
+                <br />
             </div>
             <br />
             <br />
             <footer class="footer">
-                <img src="cid:footer_Clarice" class="imagen-footer-email" alt="footer-email">
-                <h4 style="text-align: center; color: #4D4D4D;">&copy; 2022 Copyright: Taller Lispector.
-                    Diseño por Manuel Mateus. Desarrollo por Dayro Martínez y David Díaz.
-                    Todos los derechos reservados.
-                </h4>
+                <h4 style="text-align: center; color: #4D4D4D;">&copy; 2022 Copyright: Taller Lispector.</h4>
             </footer>
           </body>
         </html>`, // html body
@@ -184,11 +183,6 @@ const sendEmail = async (email, password) => {
                 filename: 'Logo_Lispector_Completo.png',
                 path: __dirname + '/images/Logo_Lispector_Completo.png',
                 cid: 'Logo_Lispector_Completo'
-            },
-            {
-                filename: 'footer_Clarice.png',
-                path: __dirname + '/images/footer_Clarice.png',
-                cid: 'footer_Clarice'
             }
         ]
     });
