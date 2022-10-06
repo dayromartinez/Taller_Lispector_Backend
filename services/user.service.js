@@ -69,10 +69,25 @@ const loginUser = async (req, res = response) => {
     }
 }
 
-const revalidarToken = async (req, res = response)=>{
+const revalidarToken = async (req, res = response) => {
     const {uid, name, role, publicationsCode, email, colorProfile} = req
     const token = await generateJWT (uid, name, role, postalPublicationCode, email, colorProfile)
     res.send(token)
+}
+
+const getAllEmails = async (req, res = response) => {
+    
+    try {
+        let users = (await Usuario.find()).filter(user => (
+            user.email !== 'tallerlispector@gmail.com'
+        ));
+        let emails = users.map(user => (
+            user.email
+        ))
+        res.status(200).send({emails})
+    } catch (error) {
+        res.send(error)
+    }
 }
 
 const sendEmail = async (email, password) => {
@@ -194,5 +209,5 @@ module.exports = {
     loginUser,
     revalidarToken,
     getUser,
-    sendEmail
+    getAllEmails
 }

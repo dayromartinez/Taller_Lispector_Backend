@@ -1,8 +1,8 @@
 const express = require('express');
-const {check}  = require ('express-validator');
+const { check }  = require ('express-validator');
 const { validarJWTUser } = require('../middlewares/validateJWT');
 const { validateUser } = require('../middlewares/validateUser');
-const { createUser, loginUser, getUser, sendEmail } = require('../services/user.service');
+const { createUser, loginUser, getUser, getAllEmails } = require('../services/user.service');
 
 const router = express.Router();
 
@@ -18,6 +18,8 @@ router.post(
 );
 
 router.get('/validateToken', validarJWTUser);
+
+router.get('/getAllEmails', getAllEmails);
 
 router.get(
     '/:id', 
@@ -37,5 +39,6 @@ router.post(
     ],
     loginUser
 );
+
 
 module.exports = router;
