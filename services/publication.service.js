@@ -205,11 +205,34 @@ const reservarCodigoPublicacion = async(req, res = response)=>{
     }
 }
 
+const obtenerCodigosPublicacion = async (req, res = response) => {
+
+    const { nombrePublicacion } = req.params;
+
+    try {
+
+        let publicacion = await Publicacion.findOne({ nombre: nombrePublicacion });
+        if(!publicacion) return res.status(400).send({ ok: false, msg: 'No existe ninguna publiación con el nombre ingresado.'})
+        
+        if(publicacion) {
+            const codigosPublicacion = publicacion.codigosPublicacion.map(codigo => (
+                codigo.codigoPublicacion
+            ));
+            res.status(200).send({ codigosPublicacion });
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500)
+    }
+}
+
 module.exports = {
     getAllPublicaciones,
     getPublicacion,
     crearPublicacion,
     actualizarPublicacion,
     deletePublication,
-    reservarCodigoPublicacion
+    reservarCodigoPublicacion,
+    obtenerCodigosPublicacion
 }

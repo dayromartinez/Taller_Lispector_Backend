@@ -1,9 +1,11 @@
 const express = require('express');
 const { check }  = require ('express-validator');
-const { getAllPublicaciones, getPublicacion, crearPublicacion, actualizarPublicacion, deletePublication, reservarCodigoPublicacion } = require('../services/publication.service');
+const { getAllPublicaciones, getPublicacion, crearPublicacion, actualizarPublicacion, deletePublication, reservarCodigoPublicacion, obtenerCodigosPublicacion } = require('../services/publication.service');
 const router = express.Router();
 
 router.get('/getAll', getAllPublicaciones);
+
+router.get('/getCodigosPublicacion/:nombrePublicacion', obtenerCodigosPublicacion);
 
 router.get('/:_id', getPublicacion);
 
