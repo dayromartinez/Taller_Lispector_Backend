@@ -41,7 +41,7 @@ const getUser = async (req, res = response) => {
 
     try {
 
-        let user = await Usuario.findOne({id});
+        let user = await Usuario.findOne({ _id: id});
         if(!user) return res.status(400).send({ ok: false, msg: 'El usuario no existe'})
         const token = await generateJWT (user.id, user.name, user.role, user.publicationsCode, user.email, user.comments, user.colorProfile)
         res.status(200).send({token})
