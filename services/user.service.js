@@ -4,6 +4,7 @@ const Usuario = require("../models/Usuario");
 const { generateJWT } = require ("../middlewares/generateJWT")
 const nodemailer = require("nodemailer");
 const fs = require('fs');
+require('dotenv').config();
 
 const createUser = async(req, res = response) => {
 
@@ -102,8 +103,8 @@ const sendEmail = async (email, password) => {
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-          user: 'tallerlispector@gmail.com', // generated ethereal user
-          pass: 'nonjlgulbysxtrdk', // generated ethereal password
+          user: `${process.env.FROM_EMAIL_EMAIL}`, // generated ethereal user
+          pass: `${process.env.FROM_EMAIL_PASSWORD}`, // generated ethereal password
         },
     });
 
