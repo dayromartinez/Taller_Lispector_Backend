@@ -8,7 +8,7 @@ const getAllPublicaciones = async(req, res = response)=>{
 
     try {
 
-        let publicaciones = (await Publicacion.find()).sort((a, b) => a.createdAt - b.createdAt) ?? [];
+        let publicaciones = (await Publicacion.find()).sort((a, b) => b.createdAt - a.createdAt) ?? [];
 
         if(publicaciones) return res.status(200).send({publicaciones})
 
